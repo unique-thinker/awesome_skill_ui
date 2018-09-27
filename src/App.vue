@@ -7,7 +7,8 @@
 
 <script>
 // @ is an alias to /src
-import Navbar from '@/components/layout/Navbar.vue';
+import Navbar from '@/views/components/layout/Navbar.vue';
+
 
 export default {
   components: {
@@ -18,7 +19,6 @@ export default {
 
 <style lang="scss">
 @charset "utf-8";
-@import '~bulma/bulma';
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

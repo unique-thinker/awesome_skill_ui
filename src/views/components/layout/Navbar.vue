@@ -48,11 +48,14 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="field is-grouped">
-          <p class="control">
+          <p v-if='!isAuthenticated' class="control">
             <router-link to="/login">Login</router-link>
           </p>
-          <p class="control">
-            <router-link to="/">SignUp</router-link>
+          <p v-if='!isAuthenticated' class="control">
+            <router-link to="/signup">SignUp</router-link>
+          </p>
+          <p v-if='isAuthenticated' class="control" @click='logout'>
+            <a>Logout</a>
           </p>
         </div>
       </div>
@@ -60,3 +63,22 @@
   </div>
 </nav>
 </template>
+
+<script>
+import { AUTH_LOGOUT } from '@/store/mutations/types/Auth';
+import { mapGetters } from 'vuex';
+
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch(AUTH_LOGOUT)
+        .then(() => {
+          this.$router.push('/login');
+        });
+    },
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated']),
+  },
+};
+</script>

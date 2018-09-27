@@ -1,20 +1,32 @@
 // @ is an alias to /src
 import Vue from 'vue';
 import App from '@/App.vue';
+// Router
 import router from '@/router';
+// Vuex
 import store from '@/store';
-import axios from 'axios';
+// Axios
+import axios from '@/store/modules/plugins/Axios';
+// Buefy
+import Buefy from 'buefy';
+import 'buefy/dist/buefy.css';
+
+Vue.use(Buefy);
 
 Vue.config.productionTip = false;
 
-const token = localStorage.getItem('user-token');
+const accessToken = localStorage.getItem('access-token');
+const tokenType = localStorage.getItem('token-type');
+const client = localStorage.getItem('client');
+const uid = localStorage.getItem('uid');
+const expiry = localStorage.getItem('expiry');
 
-axios.defaults.baseURL = 'https://api.example.com';
-axios.defaults.headers.common.Accept = 'application/json';
-axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
-
-if (token) {
-  axios.defaults.headers.common.Authorization = token;
+if (accessToken && tokenType && client && uid && expiry) {
+  axios.defaults.headers.common['access-token'] = accessToken;
+  axios.defaults.headers.common['token-type'] = tokenType;
+  axios.defaults.headers.common.client = client;
+  axios.defaults.headers.common.uid = uid;
+  axios.defaults.headers.common.expiry = expiry;
 }
 
 new Vue({
