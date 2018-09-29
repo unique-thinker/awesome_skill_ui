@@ -31,7 +31,10 @@
                 </button>
               </p>
             </div>
-            <router-link to='/signup' class='level-left'>SignUp</router-link>
+            <p class='level-left'>Don't have an account?
+              <router-link to='/signup'>SignUp</router-link>
+            </p>
+            <router-link to='/password_reset' class='level-left'>Forgot password?</router-link>
           </div>
         </article>
       </div>

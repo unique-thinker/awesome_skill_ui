@@ -36,7 +36,7 @@
               :type="errors.encrypted_password ? 'is-danger' : ''"
               :message='errors.encrypted_password'>
               <b-input type="password"
-                v-model='password_confirmation'
+                v-model='passwordConfirmation'
                 placeholder='Confirm Password'
                 password-reveal>
               </b-input>
@@ -50,7 +50,9 @@
                 </button>
               </p>
             </div>
-            <router-link to='/login' class='level-left'>Login</router-link>
+            <p class='level-left'>Have an account?
+              <router-link to='/login'>Login</router-link>
+            </p>
           </div>
         </article>
       </div>
@@ -67,7 +69,7 @@ export default {
       username: '',
       email: '',
       password: '',
-      password_confirmation: '',
+      passwordConfirmation: '',
       success: '',
       errors: '',
     };
@@ -81,7 +83,7 @@ export default {
         username: this.username,
         email: this.email,
         password: this.password,
-        password_confirmation: this.password_confirmation,
+        password_confirmation: this.passwordConfirmation,
       };
       this.authSignUp(signUpData)
         .then(() => {

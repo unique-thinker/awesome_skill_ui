@@ -5,6 +5,8 @@ import {
   AUTH_SUCCESS,
   AUTH_ERROR,
   AUTH_LOGOUT,
+  AUTH_PASSWORD_RESET,
+  AUTH_NEW_PASSWORD,
   SET_REQUEST_HEADER,
   RESET_REQUEST_HEADER,
 } from '@/store/mutations/types/Auth';
@@ -24,7 +26,6 @@ export default {
         commit(SET_AUTH_TOKEN, responseHeader);
         commit(AUTH_SUCCESS, responseHeader);
         commit(SET_REQUEST_HEADER);
-        // dispatch(USER_REQUEST);
         resolve();
       })
       .catch((err) => {
@@ -43,7 +44,6 @@ export default {
         commit(SET_AUTH_TOKEN, responseHeader);
         commit(AUTH_SUCCESS, responseHeader);
         commit(SET_REQUEST_HEADER);
-        // dispatch(USER_REQUEST);
         resolve();
       })
       .catch((err) => {
@@ -61,6 +61,28 @@ export default {
         commit(AUTH_LOGOUT);
         commit(RESET_REQUEST_HEADER);
         resolve();
+      });
+  }),
+
+  [AUTH_PASSWORD_RESET]: ({}, passwordResetData) => new Promise((resolve, reject) => {
+    axios({ url: '/auth/password', data: passwordResetData, method: 'POST' })
+      .then((resp) => {
+        resolve(resp.data);
+      })
+      .catch((err) => {
+        reject(err.response.data);
+      });
+  }),
+
+  [AUTH_NEW_PASSWORD]: ({}, payload) => new Promise((resolve, reject) => {
+    axios({
+      url: '/auth/password', data: payload.newPassword, headers: payload.headers, method: 'PUT',
+    })
+      .then((resp) => {
+        resolve(resp.data);
+      })
+      .catch((err) => {
+        reject(err.response.data);
       });
   }),
 };

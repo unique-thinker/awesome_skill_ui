@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import Home from '@/views/Home.vue';
 import Login from '@/views/components/auth/Login.vue';
 import SignUp from '@/views/components/auth/SignUp.vue';
+import PasswordReset from '@/views/components/auth/PasswordReset.vue';
+import NewPassword from '@/views/components/auth/NewPassword.vue';
 import store from '@/store';
 
 Vue.use(Router);
@@ -23,7 +25,17 @@ const ifAuthenticated = (to, from, next) => {
   next('/login');
 };
 
+const ifAuthenticatedUrl = (to, from, next) => {
+  const params = to.query;
+  if (params['access-token'] && params.token && params.client) {
+    next();
+    return;
+  }
+  next('/login');
+};
+
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -41,6 +53,17 @@ export default new Router({
       path: '/signup',
       name: 'signUp',
       component: SignUp,
+    },
+    {
+      path: '/password_reset',
+      name: 'passwordReset',
+      component: PasswordReset,
+    },
+    {
+      path: '/new_password',
+      name: 'newPassword',
+      component: NewPassword,
+      beforeEnter: ifAuthenticatedUrl,
     },
     {
       path: '/about',
