@@ -12,20 +12,23 @@
               <b-input type='email'
                 v-model='email'
                 placeholder='Email'
-                maxlength='30'>
+                icon="envelope"
+                rounded>
               </b-input>
             </b-field>
             <b-field label='Password'>
               <b-input type='password'
                   v-model='password'
                   placeholder='Password'
+                  icon="lock"
+                  rounded
                   password-reveal>
               </b-input>
             </b-field>
             <div class='field'>
               <p class='control'>
                 <button
-                  class='button is-primary is-medium is-fullwidth'
+                  class='button is-primary is-medium is-fullwidth is-rounded'
                   @click='login'>
                   Login
                 </button>

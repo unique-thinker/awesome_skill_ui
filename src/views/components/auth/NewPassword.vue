@@ -19,6 +19,8 @@
               <b-input type='password'
                   v-model='password'
                   placeholder='Password'
+                  icon="lock"
+                  rounded
                   password-reveal>
               </b-input>
             </b-field>
@@ -26,13 +28,15 @@
               <b-input type='password'
                   v-model='passwordConfirmation'
                   placeholder='Password'
+                  icon="lock"
+                  rounded
                   password-reveal>
               </b-input>
             </b-field>
             <div class='field'>
               <p class='control'>
                 <button
-                  class='button is-primary is-medium is-fullwidth'
+                  class='button is-primary is-medium is-fullwidth is-rounded'
                   type='submit'>
                   Change password
                 </button>
