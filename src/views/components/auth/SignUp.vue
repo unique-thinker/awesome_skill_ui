@@ -6,30 +6,30 @@
           <div class='card-content'>
             <h1 class='title'>SignUp</h1>
             <b-field label='Username'
-              :type="errors.username ? 'is-danger' : ''"
-              :message='errors.username'>
+              :type="$v.username.$error ? 'is-danger' : ''"
+              :message="$v.username.minLen? '': 'Username must have at least 3 characters'">
               <b-input
-                v-model='username'
+                v-model.trim.lazy='$v.username.$model'
                 placeholder='Username'
                 icon="user"
                 rounded>
               </b-input>
             </b-field>
             <b-field label='Email'
-              :type="errors.email ? 'is-danger' : ''"
-              :message='errors.email'>
+              :type="$v.email.$error ? 'is-danger' : ''"
+              :message="$v.email.email? '': 'Please enter an valid email.'">
               <b-input type='email'
-                v-model='email'
+                v-model.trim.lazy='$v.email.$model'
                 placeholder='Email'
                 icon="envelope"
                 rounded>
               </b-input>
             </b-field>
             <b-field label='Password'
-              :type="errors.password ? 'is-danger' : ''"
-              :message='errors.password'>
+              :type="$v.password.$error ? 'is-warning' : ''"
+              :message="$v.password.minLen? '': 'Password must have at least 6 characters.'">
               <b-input type="password"
-                v-model='password'
+                v-model.trim.lazy='$v.password.$model'
                 placeholder='Password'
                 icon="lock"
                 rounded
@@ -37,10 +37,11 @@
               </b-input>
             </b-field>
             <b-field label="Confirm Password"
-              :type="errors.encrypted_password ? 'is-danger' : ''"
-              :message='errors.encrypted_password'>
+              :type="$v.passwordConfirmation.$error ? 'is-warning' : ''"
+              :message="$v.passwordConfirmation.minLen?
+                '': 'Password must have at least 6 characters.'">
               <b-input type="password"
-                v-model='passwordConfirmation'
+                v-model.trim.lazy='$v.passwordConfirmation.$model'
                 placeholder='Confirm Password'
                 icon="lock"
                 rounded
@@ -51,7 +52,8 @@
               <p class='control'>
                 <button
                   class='button is-primary is-medium is-fullwidth is-rounded'
-                  @click='signUp'>
+                  @click='signUp'
+                  :disabled='$v.$invalid'>
                   SignUp
                 </button>
               </p>
@@ -68,6 +70,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import formValidations from '@/mixins/validations/Form';
 
 export default {
   data() {
@@ -80,6 +83,7 @@ export default {
       errors: '',
     };
   },
+  mixins: [formValidations],
   methods: {
     ...mapActions({
       authSignUp: 'AUTH_SIGNUP',

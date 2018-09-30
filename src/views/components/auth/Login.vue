@@ -8,17 +8,21 @@
             <b-message v-if='errors' type="is-danger">
               <p v-for='(error, index) in errors' :key='index'>{{ error }}</p>
             </b-message>
-            <b-field label='Email'>
+            <b-field label='Email'
+              :type="$v.email.$error ? 'is-danger' : ''"
+              :message="$v.email.email? '': 'Please enter an valid email.'">
               <b-input type='email'
-                v-model='email'
+                v-model.trim.lazy='$v.email.$model'
                 placeholder='Email'
                 icon="envelope"
                 rounded>
               </b-input>
             </b-field>
-            <b-field label='Password'>
+            <b-field label='Password'
+              :type="$v.password.$error ? 'is-warning' : ''"
+              :message="$v.password.minLen? '': 'Password must have at least 6 characters.'">
               <b-input type='password'
-                  v-model='password'
+                  v-model.trim.lazy='$v.password.$model'
                   placeholder='Password'
                   icon="lock"
                   rounded
@@ -29,7 +33,8 @@
               <p class='control'>
                 <button
                   class='button is-primary is-medium is-fullwidth is-rounded'
-                  @click='login'>
+                  @click='login'
+                  :disabled="$v.email.$invalid || $v.password.$invalid">
                   Login
                 </button>
               </p>
@@ -47,6 +52,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import formValidations from '@/mixins/validations/Form';
 
 export default {
   data() {
@@ -56,6 +62,7 @@ export default {
       errors: '',
     };
   },
+  mixins: [formValidations],
   methods: {
     ...mapActions({
       authLogin: 'AUTH_LOGIN',

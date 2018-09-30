@@ -16,7 +16,7 @@ export default {
       required,
       minLen: minLength(6),
     },
-    password_confirmation: {
+    passwordConfirmation: {
       required,
       minLen: minLength(6),
       sameAs: sameAs('password'),

@@ -15,18 +15,24 @@
                 {{ message }}
               </p>
             </b-message>
-            <b-field label='Password'>
+            <b-field label='Password'
+              :type="$v.password.$error ? 'is-warning' : ''"
+              :message="$v.password.minLen?
+                '': 'Password must have at least 6 characters.'">
               <b-input type='password'
-                  v-model='password'
+                  v-model.trim.lazy='$v.password.$model'
                   placeholder='Password'
                   icon="lock"
                   rounded
                   password-reveal>
               </b-input>
             </b-field>
-            <b-field label='Confirm password'>
+            <b-field label='Confirm password'
+              :type="$v.passwordConfirmation.$error ? 'is-warning' : ''"
+              :message="$v.passwordConfirmation.minLen?
+                '': 'Password must have at least 6 characters.'">
               <b-input type='password'
-                  v-model='passwordConfirmation'
+                  v-model.trim.lazy='$v.passwordConfirmation.$model'
                   placeholder='Password'
                   icon="lock"
                   rounded
@@ -37,7 +43,8 @@
               <p class='control'>
                 <button
                   class='button is-primary is-medium is-fullwidth is-rounded'
-                  type='submit'>
+                  type='submit'
+                  :disabled="$v.password.$invalid || $v.passwordConfirmation.$invalid">
                   Change password
                 </button>
               </p>
@@ -51,6 +58,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import formValidations from '@/mixins/validations/Form';
 
 export default {
   data() {
@@ -61,6 +69,7 @@ export default {
       errors: '',
     };
   },
+  mixins: [formValidations],
   methods: {
     ...mapActions({
       authNewPassword: 'AUTH_NEW_PASSWORD',
