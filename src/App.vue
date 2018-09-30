@@ -9,7 +9,6 @@
 // @ is an alias to /src
 import Navbar from '@/views/components/layout/Navbar.vue';
 
-
 export default {
   components: {
     Navbar,
@@ -19,6 +18,11 @@ export default {
 
 <style lang="scss">
 @charset "utf-8";
+// Fontawesome
+//$fa-font-path variable overwrite that variable’s
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
