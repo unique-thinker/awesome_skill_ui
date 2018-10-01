@@ -9,7 +9,7 @@ import store from '@/store';
 import axios from '@/store/modules/plugins/Axios';
 // Buefy
 import Buefy from 'buefy';
-import 'buefy/dist/buefy.css';
+import 'buefy/dist/buefy.min.css';
 
 Vue.use(Buefy, { defaultIconPack: 'fas' });
 
