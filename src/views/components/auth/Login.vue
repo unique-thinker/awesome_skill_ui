@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <div class='container'>
-      <div class='columns is-centered'>
-        <article class='card is-rounded'>
-          <div class='card-content'>
-            <h1 class='title'>Login</h1>
+  <section class="hero has-background-light is-fullheight">
+    <div class="container has-text-centered">
+      <div class="column is-4 is-offset-4">
+        <div class="box">
+        <h3 class="title has-text-grey">Login</h3>
+        <p class="subtitle has-text-grey">Please login to proceed.</p>
+          <form @submit.prevent='login'>
             <b-message v-if='errors' type="is-danger">
               <p v-for='(error, index) in errors' :key='index'>{{ error }}</p>
             </b-message>
@@ -33,7 +34,7 @@
               <p class='control'>
                 <button
                   class='button is-primary is-medium is-fullwidth is-rounded'
-                  @click='login'
+                  type='submit'
                   :disabled="$v.email.$invalid || $v.password.$invalid">
                   Login
                 </button>
@@ -43,11 +44,11 @@
               <router-link to='/signup'>SignUp</router-link>
             </p>
             <router-link to='/password_reset' class='level-left'>Forgot password?</router-link>
-          </div>
-        </article>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

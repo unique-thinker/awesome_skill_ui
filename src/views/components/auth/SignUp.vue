@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class='container'>
-      <div class='columns is-centered'>
-        <article class='card is-rounded'>
-          <div class='card-content'>
-            <h1 class='title'>SignUp</h1>
+  <section class="has-background-light is-fullheight">
+    <div class="container has-text-centered">
+      <div class="column is-4 is-offset-4">
+        <div class="box">
+        <h3 class="title has-text-grey">SignUp</h3>
+          <form @submit.prevent='signUp'>
             <b-field label='Username'
               :type="$v.username.$error ? 'is-danger' : ''"
               :message="$v.username.minLen? '': 'Username must have at least 3 characters'">
@@ -52,7 +52,7 @@
               <p class='control'>
                 <button
                   class='button is-primary is-medium is-fullwidth is-rounded'
-                  @click='signUp'
+                  type='submit'
                   :disabled='$v.$invalid'>
                   SignUp
                 </button>
@@ -61,11 +61,11 @@
             <p class='level-left'>Have an account?
               <router-link to='/login'>Login</router-link>
             </p>
-          </div>
-        </article>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

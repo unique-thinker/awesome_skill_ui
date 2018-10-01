@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class='container'>
-      <div class='columns is-centered'>
-        <form class='card is-rounded' @submit.prevent='passwordReset'>
-          <div class='card-content'>
-            <h1 class='title'>Reset your password</h1>
+  <section class="hero has-background-light is-fullheight">
+    <div class="container has-text-centered">
+      <div class="column is-4 is-offset-4">
+        <div class="box">
+        <h3 class="title">Reset password</h3>
+          <form @submit.prevent='passwordReset'>
             <b-message v-if='success.success' type='is-success'>
               <p>{{ success.message }}</p>
             </b-message>
@@ -31,11 +31,11 @@
                 </button>
               </p>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
