@@ -67,8 +67,7 @@
 </template>
 
 <script>
-import { AUTH_LOGOUT } from '@/store/mutations/types/Auth';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -77,8 +76,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['authLogout']),
     logout() {
-      this.$store.dispatch(AUTH_LOGOUT)
+      this.authLogout()
         .then(() => {
           this.$router.push('/login');
         });

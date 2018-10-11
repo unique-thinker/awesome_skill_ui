@@ -65,9 +65,7 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions({
-      authLogin: 'AUTH_LOGIN',
-    }),
+    ...mapActions(['authLogin']),
     login() {
       const loginData = {
         email: this.email,
@@ -75,7 +73,7 @@ export default {
       };
       this.authLogin(loginData)
         .then(() => this.$router.push('/'))
-        .catch((err) => { this.errors = err.errors; });
+        .catch((err) => { this.errors = err.response.data.errors; });
     },
   },
 };

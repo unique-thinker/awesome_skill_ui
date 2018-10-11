@@ -5,6 +5,9 @@
         <div class="box">
         <h3 class="title has-text-grey">SignUp</h3>
           <form @submit.prevent='signUp'>
+            <b-message v-if='errors' type="is-danger">
+              <p v-for='(error, index) in errors' :key='index'>{{ error }}</p>
+            </b-message>
             <b-field label='Username'
               :type="$v.username.$error ? 'is-danger' : ''"
               :message="$v.username.minLen? '': 'Username must have at least 3 characters'">
@@ -86,7 +89,7 @@ export default {
   mixins: [formValidations],
   methods: {
     ...mapActions({
-      authSignUp: 'AUTH_SIGNUP',
+      authSignup: 'authSignup',
     }),
     signUp() {
       const signUpData = {
@@ -95,13 +98,13 @@ export default {
         password: this.password,
         password_confirmation: this.passwordConfirmation,
       };
-      this.authSignUp(signUpData)
+      this.authSignup(signUpData)
         .then(() => {
           this.$router.push('/');
           this.success = 'You have successfully registered';
           this.successBar();
         })
-        .catch((err) => { this.errors = err.errors; });
+        .catch((err) => { this.errors = err.response.data.errors.full_messages; });
     },
     successBar() {
       this.$snackbar.open({

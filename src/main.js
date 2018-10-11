@@ -6,7 +6,7 @@ import router from '@/router';
 // Vuex
 import store from '@/store';
 // Axios
-import axios from '@/store/modules/plugins/Axios';
+import axios from '@/utils/Axios';
 // Buefy
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.min.css';
