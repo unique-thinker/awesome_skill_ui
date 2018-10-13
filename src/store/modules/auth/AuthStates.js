@@ -1,8 +1,14 @@
 export default {
-  accessToken: localStorage.getItem('access-token') || '',
-  tokenType: localStorage.getItem('token-type') || '',
-  client: localStorage.getItem('client') || '',
-  uid: localStorage.getItem('uid') || '',
-  expiry: localStorage.getItem('expiry') || '',
+  authHeaders: {
+    accessToken: null,
+    tokenType: null,
+    client: null,
+    uid: null,
+    expiry: null,
+  },
+  user: {
+    username: null,
+    email: null,
+  },
   status: '',
 };

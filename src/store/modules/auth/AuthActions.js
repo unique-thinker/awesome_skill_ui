@@ -1,13 +1,27 @@
-import axios from '@/utils/Axios';
+import axios from '@/lib/utils/Axios';
+import localStore from '@/lib/utils/LocalStorage';
 import types from '@/store/modules/auth/AuthMutationTypes';
-import sessionTypes from '@/store/modules/session/SessionMutationTypes';
-import getters from '@/store/modules/auth/AuthGetters';
 
 const loginPath = '/auth/sign_in';
 const signupPath = '/auth';
 const logoutPath = '/auth/sign_out';
 const passwordResetPath = '/auth/password';
 const newPasswordPath = '/auth/password';
+const tokenValidate = '/auth/validate_token';
+
+export const transformAuthResponse = resp => ({
+  headers: {
+    accessToken: resp.headers['access-token'],
+    tokenType: resp.headers['token-type'],
+    client: resp.headers.client,
+    uid: resp.headers.uid,
+    expiry: resp.headers.expiry,
+  },
+  user: {
+    username: resp.data.data.username,
+    email: resp.data.data.email,
+  },
+});
 
 export default {
 
@@ -63,22 +77,50 @@ export default {
       });
   },
 
-  receiveAuthSuccess({ commit }, resp) {
-    const responseHeader = getters.header(resp.headers);
-    commit(sessionTypes.SET_AUTH_TOKEN, responseHeader);
-    commit(types.RECEIVE_AUTH_SUCCESS, responseHeader);
-    commit(types.SET_REQUEST_HEADER);
+  authTokenValidate({}) {
+    const tokenData = {
+      'access-token': localStore.getAccessToken(),
+      client: localStore.getTokenClient(),
+      uid: localStore.getTokenUid(),
+    };
+
+    return axios({ url: tokenValidate, data: tokenData, method: 'GET' })
+      .then(() => { debugger; })
+      .catch((err) => {
+        debugger;
+        throw err;
+      });
   },
 
-  receiveAuthError({ commit }) {
+  receiveAuthSuccess({ dispatch, commit }, resp) {
+    const authData = transformAuthResponse(resp);
+    dispatch('setAuthToken', authData.headers);
+    commit(types.RECEIVE_AUTH_SUCCESS, authData);
+  },
+
+  receiveAuthError({ dispatch, commit }) {
+    dispatch('removeAuthToken');
     commit(types.RECEIVE_AUTH_ERROR);
-    commit(sessionTypes.RESET_AUTH_TOKEN);
-    commit(types.RESET_REQUEST_HEADER);
   },
 
-  destroySession({ commit }) {
-    commit(sessionTypes.RESET_AUTH_TOKEN);
+  destroySession({ dispatch, commit }) {
     commit(types.AUTH_LOGOUT);
-    commit(types.RESET_REQUEST_HEADER);
+    dispatch('removeAuthToken');
   },
+
+  setAuthToken({}, headers) {
+    localStore.setAccessToken(headers.accessToken);
+    localStore.setTokenType(headers.tokenType);
+    localStore.setTokenClient(headers.client);
+    localStore.setTokenUid(headers.uid);
+    localStore.setTokenExpiry(headers.expiry);
+  },
+  removeAuthToken() {
+    localStore.removeAccessToken();
+    localStore.removeTokenType();
+    localStore.removeTokenClient();
+    localStore.removeTokenUid();
+    localStore.removeTokenExpiry();
+  },
+
 };
