@@ -5,12 +5,13 @@ import Login from '@/views/components/auth/Login.vue';
 import SignUp from '@/views/components/auth/SignUp.vue';
 import PasswordReset from '@/views/components/auth/PasswordReset.vue';
 import NewPassword from '@/views/components/auth/NewPassword.vue';
+import ProfileEdit from '@/views/profile/ProfileEdit.vue';
 import store from '@/store';
 
 Vue.use(Router);
 
 const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters.isAuthenticated) {
+  if (!store.getters['auth/isAuthenticated']) {
     next();
     return;
   }
@@ -18,7 +19,7 @@ const ifNotAuthenticated = (to, from, next) => {
 };
 
 const ifAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
+  if (store.getters['auth/isAuthenticated']) {
     next();
     return;
   }
@@ -64,6 +65,12 @@ export default new Router({
       name: 'newPassword',
       component: NewPassword,
       beforeEnter: ifAuthenticatedUrl,
+    },
+    {
+      path: '/profile/edit',
+      name: 'ProfileEdit',
+      component: ProfileEdit,
+      beforeEnter: ifAuthenticated,
     },
     {
       path: '/about',

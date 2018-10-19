@@ -5,11 +5,11 @@
         <div class="box">
         <h3 class="title">Reset password</h3>
           <form @submit.prevent='passwordReset'>
-            <b-message v-if='success.success' type='is-success'>
-              <p>{{ success.message }}</p>
+            <b-message v-if="success != ''" type='is-success'>
+              <p>{{ success }}</p>
             </b-message>
-            <b-message v-if="errors == ''? false : !errors.success" type='is-danger'>
-              <p v-for='(message, index) in errors.errors' :key='index'>{{ message }}</p>
+            <b-message v-if="errors != ''" type='is-danger'>
+              <p v-for='(message, index) in errors' :key='index'>{{ message }}</p>
             </b-message>
             <b-field label='Email'
               :type="$v.email.$error ? 'is-danger' : ''"
@@ -42,6 +42,7 @@
 import { mapActions } from 'vuex';
 import formValidations from '@/mixins/validations/Form';
 
+const msg = 'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.';
 export default {
   data() {
     return {
@@ -52,17 +53,19 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions({
-      authPasswordReset: 'AUTH_PASSWORD_RESET',
-    }),
+    ...mapActions('auth', ['authPasswordReset']),
     passwordReset() {
       const resetPasswordData = {
         email: this.email,
         redirect_url: 'http://localhost:8080/new_password',
       };
       this.authPasswordReset(resetPasswordData)
-        .then((resp) => { this.success = resp; this.errors = ''; })
-        .catch((err) => { this.errors = err; this.success = ''; });
+        .then(() => {
+          this.success = msg;
+          this.errors = '';
+          setTimeout(() => { this.$router.push('/login'); }, 5000);
+        })
+        .catch((err) => { this.errors = err.response.data.errors; this.success = ''; });
     },
   },
 };

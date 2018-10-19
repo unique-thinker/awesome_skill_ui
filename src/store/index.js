@@ -1,19 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import Auth from '@/store/modules/Auth';
-import AuthTokenMutation from '@/store/mutations/AuthToken';
+import auth from '@/store/modules/auth';
+import profile from '@/store/modules/profile';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
   modules: {
-    Auth,
+    auth,
+    profile,
   },
   state: {
 
   },
   mutations: {
-    ...AuthTokenMutation,
+
   },
   actions: {
 

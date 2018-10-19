@@ -5,12 +5,12 @@
         <div class="box">
         <h3 class="title has-text-grey">New Password</h3>
           <form @submit.prevent='changePassword'>
-            <b-message v-if='success.success' type='is-success'>
-              <p>{{ success.message }}</p>
+            <b-message v-if="success != ''" type='is-success'>
+              <p>{{ success }}</p>
             </b-message>
-            <b-message v-if="errors == ''? false : !errors.success" type='is-danger'>
+            <b-message v-if="errors != ''" type='is-danger'>
               <p
-                v-for='(message, index) in errors.errors.full_messages'
+                v-for='(message, index) in errors.full_messages'
                 :key='index'>
                 {{ message }}
               </p>
@@ -60,6 +60,8 @@
 import { mapActions } from 'vuex';
 import formValidations from '@/mixins/validations/Form';
 
+const msg = 'Your password has been successfully updated.';
+
 export default {
   data() {
     return {
@@ -71,9 +73,7 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions({
-      authNewPassword: 'AUTH_NEW_PASSWORD',
-    }),
+    ...mapActions('auth', ['authNewPassword']),
     changePassword() {
       const headerParams = this.$router.currentRoute.query;
       const newPasswordData = {
@@ -84,12 +84,12 @@ export default {
         headers: headerParams,
       };
       this.authNewPassword(newPasswordData)
-        .then((resp) => {
-          this.success = resp;
+        .then(() => {
+          this.success = msg;
           this.errors = '';
           setTimeout(() => { this.$router.push('/login'); }, 5000);
         })
-        .catch((err) => { this.errors = err; this.success = ''; });
+        .catch((err) => { this.errors = err.response.data.errors; this.success = ''; });
     },
   },
 };
