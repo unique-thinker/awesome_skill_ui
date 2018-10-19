@@ -53,9 +53,7 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions({
-      authPasswordReset: 'authPasswordReset',
-    }),
+    ...mapActions('auth', ['authPasswordReset']),
     passwordReset() {
       const resetPasswordData = {
         email: this.email,

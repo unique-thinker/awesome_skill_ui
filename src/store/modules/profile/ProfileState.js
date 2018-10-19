@@ -1,0 +1,20 @@
+export default {
+  profile: {
+    firstName: null,
+    lastName: null,
+    birthday: null,
+    gender: null,
+    status: null,
+    bio: null,
+    professions: null,
+    company: null,
+    currentPlace: null,
+    nativePlace: null,
+    state: null,
+    country: null,
+  },
+  countriesData: [],
+  isLoading: false,
+  isSaving: false,
+  hasError: false,
+};

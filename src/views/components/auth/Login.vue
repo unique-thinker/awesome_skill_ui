@@ -65,7 +65,7 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions(['authLogin']),
+    ...mapActions('auth', ['authLogin']),
     login() {
       const loginData = {
         email: this.email,

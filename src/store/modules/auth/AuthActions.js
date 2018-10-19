@@ -85,11 +85,8 @@ export default {
     };
 
     return axios({ url: tokenValidate, data: tokenData, method: 'GET' })
-      .then(() => { debugger; })
-      .catch((err) => {
-        debugger;
-        throw err;
-      });
+      .then()
+      .catch();
   },
 
   receiveAuthSuccess({ dispatch, commit }, resp) {

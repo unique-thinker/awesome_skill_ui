@@ -73,9 +73,7 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions({
-      authNewPassword: 'authNewPassword',
-    }),
+    ...mapActions('auth', ['authNewPassword']),
     changePassword() {
       const headerParams = this.$router.currentRoute.query;
       const newPasswordData = {

@@ -2,8 +2,8 @@ import localStore from '@/lib/utils/LocalStorage';
 
 const auth = {
   isAuthenticated: (state) => {
-    state.authHeaders.accessToken = state.authHeaders.accessToken || localStore.getAccessToken();
-    return !!state.authHeaders.accessToken && !auth.isTokenExpired(state);
+    const accessToken = state.authHeaders.accessToken || localStore.getAccessToken();
+    return !!accessToken && !auth.isTokenExpired(state);
   },
 
   isTokenExpired: (state) => {
@@ -12,11 +12,11 @@ const auth = {
   },
 
   getTokenExpirationDate: (state) => {
-    state.authHeaders.expiry = state.authHeaders.expiry || localStore.getTokenExpiry();
-    if (!state.authHeaders.expiry) { return true; }
+    const expiry = state.authHeaders.expiry || localStore.getTokenExpiry();
+    if (!expiry) { return true; }
 
     const date = new Date(0);
-    date.setUTCSeconds(state.authHeaders.expiry);
+    date.setUTCSeconds(expiry);
     return date;
   },
 

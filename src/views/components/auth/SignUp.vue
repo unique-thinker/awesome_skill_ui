@@ -88,9 +88,7 @@ export default {
   },
   mixins: [formValidations],
   methods: {
-    ...mapActions({
-      authSignup: 'authSignup',
-    }),
+    ...mapActions('auth', ['authSignup']),
     signUp() {
       const signUpData = {
         username: this.username,
